@@ -64,6 +64,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="HighResolutionTimer.cs" />
     <Compile Include="ILeapEventDelegate.cs" />
     <Compile Include="LeapEventListener.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -97,6 +98,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\green-button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\grey-button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ajax-loader.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataSet\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

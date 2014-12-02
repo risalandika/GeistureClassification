@@ -29,7 +29,7 @@ namespace GeistClass
         public override void OnFrame(Controller controller)
         {
             //Toleransi Gerakan
-            if (controller.Frame().Fingers[0].TipVelocity.Magnitude <= 25) return;
+            if (controller.Frame().Fingers[0].TipVelocity.Magnitude <= 5) return;
             else
             {
                 this.eventDelegate.LeapEventNotification("onFrame");

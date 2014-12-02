@@ -1,8 +1,12 @@
 ﻿<Window x:Class="GeistClass.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="500" Width="500">
     <Grid>
-        
+
+        <Image x:Name="GuideButton" Source="Images\green-button.png" Margin="160,171,182,148" Width="50" Height="50"/>
+        <TextBox x:Name="TextBox_Classification" Margin="104,399,85,32" FontSize="18" TextChanged="TextBox_Classification_TextChanged" Visibility="Hidden" GotFocus="TextBox_Classification_GotFocus" LostFocus="TextBox_Classification_LostFocus"/>
+        <Button x:Name="Mode" Content="Reading" HorizontalAlignment="Left" Margin="30,25,0,0" VerticalAlignment="Top" Width="120" Height="38" RenderTransformOrigin="-0.752,-6.381" Click="Button_Click"/>
+        <Label x:Name="CounterSet" Content="Input Number: 0" HorizontalAlignment="Left" Margin="371,31,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
