@@ -64,7 +64,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HighResolutionTimer.cs" />
+    <Compile Include="BackpropagationWithGA.cs" />
     <Compile Include="ILeapEventDelegate.cs" />
     <Compile Include="LeapEventListener.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -110,6 +110,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataSet\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

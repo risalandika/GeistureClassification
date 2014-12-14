@@ -106,6 +106,7 @@ namespace GeistClass
             //Console.WriteLine("Distance : " + distanceVector);
             if (frame.Hands.Count != 0)
             {
+                //palmPositionOld = frame.Pointable(0).TipPosition;
                 palmPositionOld = frame.Hands.Rightmost.PalmPosition;
                 changeColorButton(3);
                 ButtonPositionAsPalm(frame.Hands.Rightmost.PalmPosition);
@@ -225,11 +226,10 @@ namespace GeistClass
                 }
                 else
                 {
-                    // Reading mode
+                    
                 }
                 vectorPosition.Clear();
                 idleTime = 0;
-
                 delayLoading += deltaTime;
                 // if (delayLoading > 1.0f)
             }
@@ -274,7 +274,7 @@ namespace GeistClass
 
         void ButtonPositionAsPalmSafe(Vector v)
         {
-            double velocity = 2;
+            double velocity = 3.2;
             GuideButton.Margin = new Thickness(v.x * velocity, v.z * velocity, 0, 0);
         }
 
@@ -292,11 +292,13 @@ namespace GeistClass
             {
                 Mode.Content = "Learning";
                 TextBox_Classification.Visibility = Visibility.Visible;
+                Btn_Read.Visibility = Visibility.Hidden;
             }
             else
             {
                 Mode.Content = "Reading";
                 TextBox_Classification.Visibility = Visibility.Hidden;
+                Btn_Read.Visibility = Visibility.Visible;
             }
         }
 
@@ -308,6 +310,18 @@ namespace GeistClass
         private void TextBox_Classification_LostFocus(object sender, RoutedEventArgs e)
         {
             textboxFocus = false;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            appRun = false;
+        }
+
+        private void Btn_Read_Click(object sender, RoutedEventArgs e)
+        {
+                BackpropagationWithGA bp = new BackpropagationWithGA();
+                bp.ReadFromFiles();
+                bp.DataSetCollectionDoBP();
         }
     }
 }
