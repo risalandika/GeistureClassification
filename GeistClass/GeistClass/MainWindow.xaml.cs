@@ -322,9 +322,75 @@ namespace GeistClass
 
         private void Btn_Read_Click(object sender, RoutedEventArgs e)
         {
+            ClassificationClass cc = new ClassificationClass();
+            FileReader fr = new FileReader();
+            ListDataSet dsl = fr.ReadFile("Tests", cc);
+            //dsl.Normalized();
+            NeuralNetwork nn = new NeuralNetwork();
+            nn.InitialiseNetwork(dsl[0].AttributeCount, dsl[0].AttributeCount / 2, cc.TargetCount);
+            nn.Seed = 0;
+            nn.InitialiseWeight();
 
-                bp.ReadFromFiles("DataSet\\");
-                bp.DataSetCollectionDoBP();
+            for (int i = 0; i < nn.InputLayer.Count; i++)
+            {
+                for (int j = 0; j < nn.InputLayer[i].NextNodeCount; j++)
+                {
+                    Console.WriteLine(nn.InputLayer[i].Input + " >> " + nn.InputLayer[i].GetWeight(j) + " >>> [" + j + "] " + nn.InputLayer[i].GetOutput(j));
+                }
+            }
+            Console.WriteLine();
+
+            for (int i = 0; i < nn.HiddenLayer.Count; i++)
+            {
+                for (int j = 0; j < nn.HiddenLayer[i].NextNodeCount; j++)
+                {
+                    Console.WriteLine(nn.HiddenLayer[i].Input + " >> " + nn.HiddenLayer[i].GetWeight(j) + " >>> " + j);
+                }
+            }
+            Console.WriteLine();
+
+            for (int i = 0; i < nn.OutputLayer.Count; i++)
+            {
+                for (int j = 0; j < nn.OutputLayer[i].NextNodeCount; j++)
+                {
+                    Console.WriteLine(nn.OutputLayer[i].Input + " >> " + nn.OutputLayer[i].GetWeight(j) + " >>> ");
+                }
+            }
+            Console.WriteLine();
+
+            FeedForward ff = new FeedForward();
+            ff.Initialise(nn, dsl);
+            ff.Run(1);
+            //BackPropagation bp = new BackPropagation();
+            //bp.Initialise(nn, dsl, cc);
+            //bp.Run();
+
+            for (int i = 0; i < nn.InputLayer.Count; i++)
+            {
+                for (int j = 0; j < nn.InputLayer[i].NextNodeCount; j++)
+                {
+                    Console.WriteLine(nn.InputLayer[i].Input + " >> " + nn.InputLayer[i].GetWeight(j) + " >>> [" + j + "] " + nn.InputLayer[i].GetOutput(j));
+                }
+            }
+            Console.WriteLine();
+
+            for (int i = 0; i < nn.HiddenLayer.Count; i++)
+            {
+                for (int j = 0; j < nn.HiddenLayer[i].NextNodeCount; j++)
+                {
+                    Console.WriteLine(nn.HiddenLayer[i].Input + " >> " + nn.HiddenLayer[i].GetWeight(j) + " >>> " + j);
+                }
+            }
+            Console.WriteLine();
+
+            for (int i = 0; i < nn.OutputLayer.Count; i++)
+            {
+                for (int j = 0; j < nn.OutputLayer[i].NextNodeCount; j++)
+                {
+                    Console.WriteLine(nn.OutputLayer[i].Input + " >> " + nn.OutputLayer[i].GetWeight(j) + " >>> ");
+                }
+            }
+            Console.WriteLine();
         }
 
         private void Btn_GA_Click(object sender, RoutedEventArgs e)
