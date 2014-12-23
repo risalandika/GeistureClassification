@@ -7,7 +7,9 @@
         <Image x:Name="GuideButton" Source="Images\green-button.png" Margin="160,171,182,148" Width="50" Height="50"/>
         <TextBox x:Name="TextBox_Classification" Margin="104,399,85,32" FontSize="18" TextChanged="TextBox_Classification_TextChanged" Visibility="Hidden" GotFocus="TextBox_Classification_GotFocus" LostFocus="TextBox_Classification_LostFocus"/>
         <Button x:Name="Mode" Content="Reading" HorizontalAlignment="Left" Margin="30,25,0,0" VerticalAlignment="Top" Width="120" Height="38" RenderTransformOrigin="-0.752,-6.381" Click="Button_Click"/>
-        <Button x:Name="Btn_Read" Content="Read File" HorizontalAlignment="Left" Margin="30,77,0,0" VerticalAlignment="Top" Width="120" Height="38" RenderTransformOrigin="-0.752,-6.381" Click="Btn_Read_Click"/>
+        <Button x:Name="Btn_Read" Content="Training" HorizontalAlignment="Left" Margin="30,77,0,0" VerticalAlignment="Top" Width="120" Height="38" RenderTransformOrigin="-0.752,-6.381" Click="Btn_Read_Click"/>
+        <Button x:Name="Btn_GA" Content="Test" HorizontalAlignment="Left" Margin="348,77,0,0" VerticalAlignment="Top" Width="120" Height="38" RenderTransformOrigin="-0.752,-6.381" Click="Btn_GA_Click"/>
+
         <Label x:Name="CounterSet" Content="Input Number: 0" HorizontalAlignment="Left" Margin="371,31,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

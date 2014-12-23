@@ -26,6 +26,7 @@ namespace GeistClass
     /// </summary>
     public partial class MainWindow : Window, ILeapEventDelegate
     {
+        BackpropagationWithGA bp = new BackpropagationWithGA();
         private Controller controller = new Controller();
         private LeapEventListener listener;
         delegate void LeapEventDelegate(string EventName);
@@ -198,7 +199,7 @@ namespace GeistClass
                         }
 
                         file.Close();
-                        file = new StreamWriter("DataSet\\" + className + "." + count + ".txt");
+                        file = new StreamWriter("DataTest\\" + className + "." + count + ".txt");
                         float skipPerPoint = vectorPosition.Count / (25.0f);
                         //Console.WriteLine(vectorPosition.Count + ": " + skipPerPoint);
 
@@ -293,12 +294,14 @@ namespace GeistClass
                 Mode.Content = "Learning";
                 TextBox_Classification.Visibility = Visibility.Visible;
                 Btn_Read.Visibility = Visibility.Hidden;
+                Btn_GA.Visibility = Visibility.Hidden;
             }
             else
             {
                 Mode.Content = "Reading";
                 TextBox_Classification.Visibility = Visibility.Hidden;
                 Btn_Read.Visibility = Visibility.Visible;
+                Btn_GA.Visibility = Visibility.Visible;
             }
         }
 
@@ -319,9 +322,15 @@ namespace GeistClass
 
         private void Btn_Read_Click(object sender, RoutedEventArgs e)
         {
-                BackpropagationWithGA bp = new BackpropagationWithGA();
-                bp.ReadFromFiles();
+
+                bp.ReadFromFiles("DataSet\\");
                 bp.DataSetCollectionDoBP();
+        }
+
+        private void Btn_GA_Click(object sender, RoutedEventArgs e)
+        {
+            bp.ReadDataTest("DataTest\\");
+            bp.DataTestCollectionDoFF();
         }
     }
 }
