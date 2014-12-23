@@ -37,7 +37,9 @@ namespace GeistClass
             {
                 neuralNetwork.InitaliseInput();
                 DoInputLayer(i);
+                Network.Print();
             }
+            DoPrediction();
         }
 
         public void Run(int index)
@@ -71,17 +73,32 @@ namespace GeistClass
 
         private void DoOutputLayer()
 	    {
+
             for (int i = 0; i < neuralNetwork.HiddenLayer.Count; i++)
             {
                 for (int j = 0; j < neuralNetwork.OutputLayer.Count; j++)
                 {
-                    neuralNetwork.OutputLayer[j].Input += Sigmoid(neuralNetwork.HiddenLayer[i].Input)*neuralNetwork.HiddenLayer[i].GetWeight(j);
+                    neuralNetwork.OutputLayer[j].Input += Sigmoid(neuralNetwork.HiddenLayer[i].Input) * neuralNetwork.HiddenLayer[i].GetWeight(j);
                 }
             }
 	    }
 
+        public void DoPrediction()
+        {
+            for (int j = 0; j < neuralNetwork.OutputLayer.Count; j++)
+            {
+                if(Math.Abs(neuralNetwork.OutputLayer[j].Input) < neuralNetwork.treshold)
+                {
+                    Console.Write("0" + " ");
+                }
+                else Console.Write("1" + " ");
+            }
+            Console.WriteLine();
+        }
+
         private float Sigmoid(float val)
         {
+            //return val;
             return 1 / (1.0f + (float)Math.Exp(-val));
         }
     }

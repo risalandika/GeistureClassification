@@ -35,23 +35,34 @@ namespace GeistClass
 
         public void Run()
         {
-            //for (int i = 0; i < DataSetList.Count; i++)
-            //{
-                feedForward.Run(1);
+            for(int it = 0 ; it < 5000; it ++)
+            for (int k = 0; k < DataSetList.Count; k++)
+            {
+                
+                Network.InitaliseInput();
+                feedForward.Run(k);
 
-                GetErrorOutput(1);
-            //}
+                GetErrorOutput(k);
+                
+                
+            }
+            //Network.Print();
         }
 
         private void GetErrorOutput(int index)
         {
             float[] outputError = new float[classificationClass.TargetCount];
-            
+
             for (int i = 0; i < classificationClass.TargetCount; i++)
             {
-                outputError[i] = classificationClass.GetTarget(DataSetList[index].ClassName)[i] - Network.OutputLayer[i].GetOutput(0);
+               
+                outputError[i] = classificationClass.GetTarget(DataSetList[index].ClassName)[i] - Network.OutputLayer[i].Input;
+               // Console.Write(classificationClass.GetTarget(DataSetList[index].ClassName)[i] + " ");
+                //outputError[i] = Network.OutputLayer[i].Input *
+                //    (1 - Network.OutputLayer[i].Input) *
+                //    (classificationClass.GetTarget(DataSetList[index].ClassName)[i] - Network.OutputLayer[i].Input);
+                //Console.WriteLine(Network.OutputLayer[i].GetOutput(0) + "*(" + "1-" + Network.OutputLayer[i].GetOutput(0) + ")*" + "(" + classificationClass.GetTarget(DataSetList[index].ClassName)[i] + "-" + Network.OutputLayer[i].GetOutput(0)+")");
             }
-
             UpdateWeightHidden(outputError, index);
         }
 
@@ -61,7 +72,8 @@ namespace GeistClass
             {
                 for (int j = 0; j < Network.OutputLayer.Count; j++)
                 {
-                    float newWeight = Network.HiddenLayer[i].GetWeight(j) + (this.learningRate * outputError[j] * Network.HiddenLayer[i].GetOutput(j));
+                    float newWeight = Network.HiddenLayer[i].GetWeight(j) + 
+                        (this.learningRate * outputError[j] * Sigmoid(Network.HiddenLayer[i].Input));
                     Network.HiddenLayer[i].SetWeight(j, newWeight);
                 }
             }
@@ -81,8 +93,7 @@ namespace GeistClass
                     linear += outputError[j]*Network.HiddenLayer[i].GetWeight(j);
                 }
 
-                hiddenError[i] = Network.HiddenLayer[i].Input * (1 - Network.HiddenLayer[i].Input) * linear;
-                //outputError[j] * Network.HiddenLayer[i].GetWeight(j) * (1 - Network.HiddenLayer[i].GetOutput(j)) * Network.HiddenLayer[i].GetOutput(j); 
+                hiddenError[i] = Sigmoid(Network.HiddenLayer[i].Input) * (1 - Sigmoid(Network.HiddenLayer[i].Input)) * linear;
             }
 
             UpdateWeightInput(hiddenError, index);
@@ -93,10 +104,17 @@ namespace GeistClass
             {
                 for (int j = 0; j < Network.HiddenLayer.Count; j++)
                 {
-                    float newWeight = Network.InputLayer[i].GetWeight(j) + (learningRate * hiddenError[j] * Network.InputLayer[i].Input);
+                    float newWeight = Network.InputLayer[i].GetWeight(j) + 
+                        (learningRate * hiddenError[j] * Network.InputLayer[i].Input);
                     Network.InputLayer[i].SetWeight(j, newWeight);
                 }
             }
+        }
+
+        private float Sigmoid(float val)
+        {
+            //return val;
+            return 1 / (1.0f + (float)Math.Exp(-val));
         }
     }
 }

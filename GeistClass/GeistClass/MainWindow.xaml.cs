@@ -26,7 +26,9 @@ namespace GeistClass
     /// </summary>
     public partial class MainWindow : Window, ILeapEventDelegate
     {
-        BackpropagationWithGA bp = new BackpropagationWithGA();
+
+        NeuralNetwork nn = new NeuralNetwork();
+        ClassificationClass cc = new ClassificationClass();
         private Controller controller = new Controller();
         private LeapEventListener listener;
         delegate void LeapEventDelegate(string EventName);
@@ -322,81 +324,28 @@ namespace GeistClass
 
         private void Btn_Read_Click(object sender, RoutedEventArgs e)
         {
-            ClassificationClass cc = new ClassificationClass();
+
             FileReader fr = new FileReader();
-            ListDataSet dsl = fr.ReadFile("Tests", cc);
-            //dsl.Normalized();
-            NeuralNetwork nn = new NeuralNetwork();
+            ListDataSet dsl = fr.ReadFile("DataSetBaru", cc);
+            dsl.Normalized();
+            
             nn.InitialiseNetwork(dsl[0].AttributeCount, dsl[0].AttributeCount / 2, cc.TargetCount);
             nn.Seed = 0;
             nn.InitialiseWeight();
-
-            for (int i = 0; i < nn.InputLayer.Count; i++)
-            {
-                for (int j = 0; j < nn.InputLayer[i].NextNodeCount; j++)
-                {
-                    Console.WriteLine(nn.InputLayer[i].Input + " >> " + nn.InputLayer[i].GetWeight(j) + " >>> [" + j + "] " + nn.InputLayer[i].GetOutput(j));
-                }
-            }
-            Console.WriteLine();
-
-            for (int i = 0; i < nn.HiddenLayer.Count; i++)
-            {
-                for (int j = 0; j < nn.HiddenLayer[i].NextNodeCount; j++)
-                {
-                    Console.WriteLine(nn.HiddenLayer[i].Input + " >> " + nn.HiddenLayer[i].GetWeight(j) + " >>> " + j);
-                }
-            }
-            Console.WriteLine();
-
-            for (int i = 0; i < nn.OutputLayer.Count; i++)
-            {
-                for (int j = 0; j < nn.OutputLayer[i].NextNodeCount; j++)
-                {
-                    Console.WriteLine(nn.OutputLayer[i].Input + " >> " + nn.OutputLayer[i].GetWeight(j) + " >>> ");
-                }
-            }
-            Console.WriteLine();
-
-            FeedForward ff = new FeedForward();
-            ff.Initialise(nn, dsl);
-            ff.Run(1);
-            //BackPropagation bp = new BackPropagation();
-            //bp.Initialise(nn, dsl, cc);
-            //bp.Run();
-
-            for (int i = 0; i < nn.InputLayer.Count; i++)
-            {
-                for (int j = 0; j < nn.InputLayer[i].NextNodeCount; j++)
-                {
-                    Console.WriteLine(nn.InputLayer[i].Input + " >> " + nn.InputLayer[i].GetWeight(j) + " >>> [" + j + "] " + nn.InputLayer[i].GetOutput(j));
-                }
-            }
-            Console.WriteLine();
-
-            for (int i = 0; i < nn.HiddenLayer.Count; i++)
-            {
-                for (int j = 0; j < nn.HiddenLayer[i].NextNodeCount; j++)
-                {
-                    Console.WriteLine(nn.HiddenLayer[i].Input + " >> " + nn.HiddenLayer[i].GetWeight(j) + " >>> " + j);
-                }
-            }
-            Console.WriteLine();
-
-            for (int i = 0; i < nn.OutputLayer.Count; i++)
-            {
-                for (int j = 0; j < nn.OutputLayer[i].NextNodeCount; j++)
-                {
-                    Console.WriteLine(nn.OutputLayer[i].Input + " >> " + nn.OutputLayer[i].GetWeight(j) + " >>> ");
-                }
-            }
-            Console.WriteLine();
+            
+            BackPropagation bp = new BackPropagation();
+            bp.Initialise(nn, dsl, cc);
+            bp.Run();
         }
 
         private void Btn_GA_Click(object sender, RoutedEventArgs e)
         {
-            bp.ReadDataTest("DataTest\\");
-            bp.DataTestCollectionDoFF();
+            FileReader fr = new FileReader();
+            ListDataSet dsl = fr.ReadFile("DataTest", cc);
+            dsl.Normalized();
+            FeedForward ff = new FeedForward();
+            ff.Initialise(nn, dsl);
+            ff.Run();
         }
     }
 }

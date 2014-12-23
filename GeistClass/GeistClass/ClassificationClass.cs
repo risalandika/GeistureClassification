@@ -23,7 +23,6 @@ namespace GeistClass
         public void Add(string className)
         {
             int index = GetIndex(className);
-
             if (index == -1)
             {
                 classList.Add(className);

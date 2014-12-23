@@ -16,6 +16,8 @@ namespace GeistClass
                 random = new Random(value);
             }
         }
+
+        public float treshold = 0.5f;
         public List<Node> InputLayer { set; get; }
         public List<Node> HiddenLayer { set; get; }
         public List<Node> OutputLayer { set; get; }
@@ -82,7 +84,40 @@ namespace GeistClass
 
         int GetRandom()
         {
-            return random.Next(-30,30);
+            return random.Next(0,30);
+        }
+
+        public void Print()
+        {
+            Console.WriteLine("||------------------------------------------------------||");
+
+            //for (int i = 0; i < InputLayer.Count; i++)
+            //{
+            //    for (int j = 0; j < InputLayer[i].NextNodeCount; j++)
+            //    {
+            //        Console.WriteLine(InputLayer[i].Input + " >> " + InputLayer[i].GetWeight(j) + " >>> [" + j + "] " + InputLayer[i].GetOutput(j));
+            //    }
+            //}
+            //Console.WriteLine();
+
+            //for (int i = 0; i < HiddenLayer.Count; i++)
+            //{
+            //    for (int j = 0; j < HiddenLayer[i].NextNodeCount; j++)
+            //    {
+            //        Console.WriteLine(HiddenLayer[i].Input + " >> " + HiddenLayer[i].GetWeight(j) + " >>> [" + j + "] " + HiddenLayer[i].GetOutput(j));
+            //    }
+            //}
+            //Console.WriteLine();
+
+            for (int i = 0; i < OutputLayer.Count; i++)
+            {
+                //for (int j = 0; j < OutputLayer[i].NextNodeCount; j++)
+                //{
+                    Console.WriteLine(OutputLayer[i].Input);
+                //}
+            }
+
+            Console.WriteLine("||------------------------------------------------------||");
         }
     }
 }
