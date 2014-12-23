@@ -73,7 +73,7 @@ namespace GeistClass
                 for (int j = 0; j < Network.OutputLayer.Count; j++)
                 {
                     float newWeight = Network.HiddenLayer[i].GetWeight(j) + 
-                        (this.learningRate * outputError[j] * Sigmoid(Network.HiddenLayer[i].Input));
+                        (this.learningRate * outputError[j] * Network.HiddenLayer[i].Input);
                     Network.HiddenLayer[i].SetWeight(j, newWeight);
                 }
             }
@@ -93,7 +93,7 @@ namespace GeistClass
                     linear += outputError[j]*Network.HiddenLayer[i].GetWeight(j);
                 }
 
-                hiddenError[i] = Sigmoid(Network.HiddenLayer[i].Input) * (1 - Sigmoid(Network.HiddenLayer[i].Input)) * linear;
+                hiddenError[i] = Network.HiddenLayer[i].Input * (1 - Network.HiddenLayer[i].Input) * linear;
             }
 
             UpdateWeightInput(hiddenError, index);
@@ -111,10 +111,5 @@ namespace GeistClass
             }
         }
 
-        private float Sigmoid(float val)
-        {
-            //return val;
-            return 1 / (1.0f + (float)Math.Exp(-val));
-        }
     }
 }

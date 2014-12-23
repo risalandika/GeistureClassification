@@ -66,8 +66,12 @@ namespace GeistClass
                 {
                     neuralNetwork.HiddenLayer[j].Input += neuralNetwork.InputLayer[i].GetOutput(j);
                 }
+                
             }
-
+            for (int j = 0; j < neuralNetwork.HiddenLayer.Count; j++)
+            {
+                neuralNetwork.HiddenLayer[j].Input = Sigmoid(neuralNetwork.HiddenLayer[j].Input);
+            }
             DoOutputLayer();
         }
 
@@ -78,8 +82,9 @@ namespace GeistClass
             {
                 for (int j = 0; j < neuralNetwork.OutputLayer.Count; j++)
                 {
-                    neuralNetwork.OutputLayer[j].Input += Sigmoid(neuralNetwork.HiddenLayer[i].Input) * neuralNetwork.HiddenLayer[i].GetWeight(j);
+                    neuralNetwork.OutputLayer[j].Input += neuralNetwork.HiddenLayer[i].Input * neuralNetwork.HiddenLayer[i].GetWeight(j);
                 }
+
             }
 	    }
 
