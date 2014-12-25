@@ -38,5 +38,20 @@ namespace GeistClass
             for (int i = 0; i < attributeCount; i++)
                 _attribute.Add(0);
         }
+        public DataSet(DataSet ds)
+        {
+            _attribute = new List<float>();
+
+            for (int i = 0; i < ds.AttributeCount; i++)
+            {
+                _attribute.Add(ds[i]);
+            }
+
+            this.ClassName = ds.ClassName;
+        }
+        public void RemoveBit(int index)
+        {
+            _attribute.RemoveAt(index);
+        }
     }
 }

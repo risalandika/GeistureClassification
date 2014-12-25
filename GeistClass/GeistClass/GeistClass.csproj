@@ -70,10 +70,12 @@
     </Compile>
     <Compile Include="BackPropagation.cs" />
     <Compile Include="BackpropagationWithGA.cs" />
+    <Compile Include="Chromosom.cs" />
     <Compile Include="ClassificationClass.cs" />
     <Compile Include="DataSet.cs" />
     <Compile Include="FeedForward.cs" />
     <Compile Include="FileReader.cs" />
+    <Compile Include="GeneticAlgorithm.cs" />
     <Compile Include="ILeapEventDelegate.cs" />
     <Compile Include="LeapEventListener.cs" />
     <Compile Include="ListDataSet.cs" />

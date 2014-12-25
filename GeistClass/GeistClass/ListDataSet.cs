@@ -8,7 +8,14 @@ namespace GeistClass
 {
     class ListDataSet
     {
-        private List<DataSet> dataSetList = new List<DataSet>();
+        private List<DataSet> dataSetList;
+        public List<DataSet> DataSetList
+        {
+            get
+            {
+                return dataSetList;
+            }
+        }
         public int Count
         {
             get
@@ -25,6 +32,21 @@ namespace GeistClass
             get
             {
                 return dataSetList[index];
+            }
+        }
+
+        public ListDataSet()
+        {
+            dataSetList = new List<DataSet>();
+        }
+
+        public ListDataSet(ListDataSet lds)
+        {
+            dataSetList = new List<DataSet>();
+
+            for (int i = 0; i < lds.Count; i++)
+            {
+                dataSetList.Add(new DataSet(lds[i]));
             }
         }
 

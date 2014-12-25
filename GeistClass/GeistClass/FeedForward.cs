@@ -11,6 +11,10 @@ namespace GeistClass
         private NeuralNetwork neuralNetwork;
         public NeuralNetwork Network
         {
+            set
+            {
+                neuralNetwork = value;
+            }
             get
             {
                 return neuralNetwork;
@@ -37,9 +41,13 @@ namespace GeistClass
             {
                 neuralNetwork.InitaliseInput();
                 DoInputLayer(i);
-                Network.Print();
+
+                Console.Write(i + ": ");
+                foreach (int bit in GetActualClass())
+                    Console.Write(bit + " ");
+                Console.WriteLine();
+                //Network.Print();
             }
-            DoPrediction();
         }
 
         public void Run(int index)
@@ -88,17 +96,18 @@ namespace GeistClass
             }
 	    }
 
-        public void DoPrediction()
+        public int[] GetActualClass()
         {
+            int[] act = new int[neuralNetwork.OutputLayer.Count];
             for (int j = 0; j < neuralNetwork.OutputLayer.Count; j++)
             {
-                if(Math.Abs(neuralNetwork.OutputLayer[j].Input) < neuralNetwork.treshold)
+                if (Math.Abs(neuralNetwork.OutputLayer[j].Input) < neuralNetwork.treshold)
                 {
-                    Console.Write("0" + " ");
+                    act[j] = 0;
                 }
-                else Console.Write("1" + " ");
+                else act[j] = 1;
             }
-            Console.WriteLine();
+            return act;
         }
 
         private float Sigmoid(float val)

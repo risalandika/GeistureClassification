@@ -9,6 +9,7 @@ namespace GeistClass
     class ClassificationClass
     {
         private List<string> classList = new List<string>();
+        private int[] actualClass;
         public int TargetCount
         {
             get
@@ -55,5 +56,6 @@ namespace GeistClass
         {
             return GetTarget(GetIndex(className));
         }
+
     }
 }

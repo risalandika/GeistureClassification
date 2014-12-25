@@ -8,10 +8,15 @@ namespace GeistClass
 {
     class BackPropagation
     {
-        private float learningRate = 0.1f;
+        private float learningRate = 0.03f;
         private FeedForward feedForward;
+        private NeuralNetwork lastStableNetwork;
         public NeuralNetwork Network
         {
+            set
+            {
+                feedForward.Network = value;
+            }
             get
             {
                 return feedForward.Network;
@@ -33,23 +38,54 @@ namespace GeistClass
             classificationClass = cc;
         }
 
-        public void Run()
+        public void Run(int maxIter)
         {
-            for(int it = 0 ; it < 5000; it ++)
-            for (int k = 0; k < DataSetList.Count; k++)
+            float lastAvgError = float.MaxValue;
+            for (int it = 0; it < maxIter; it++)
             {
-                
-                Network.InitaliseInput();
-                feedForward.Run(k);
+                float avgError = 0;
+                for (int k = 0; k < DataSetList.Count; k++)
+                {
+                    Network.InitaliseInput();
+                    feedForward.Run(k);
 
-                GetErrorOutput(k);
-                
-                
+                    float[] errorOutput = GetErrorOutput(k);
+                    float totalError = 0;
+                    for (int i = 0; i < errorOutput.Length; i++)
+                    {
+                        totalError += Math.Abs(errorOutput[i]);
+                    }
+                    avgError += totalError;
+                    //foreach (float f in GetErrorOutput(k))
+                    //    Console.Write(f + " ");
+                    //Console.WriteLine();
+                }
+                avgError /= DataSetList.Count;
+                //Console.WriteLine(it + ": " + (double)avgError + " " + (avgError - lastAvgError));
+
+                if(it%5==0)
+                {
+                    if (avgError - lastAvgError < 0.01)
+                    {
+                        lastAvgError = avgError;
+                        lastStableNetwork = new NeuralNetwork(Network);
+                    }
+                    else
+                    {
+                        Network = new NeuralNetwork(lastStableNetwork);
+                        break;
+                    }
+                }
             }
             //Network.Print();
         }
 
-        private void GetErrorOutput(int index)
+        public void Run()
+        {
+            Run(100);
+        }
+
+        private float[] GetErrorOutput(int index)
         {
             float[] outputError = new float[classificationClass.TargetCount];
 
@@ -64,6 +100,8 @@ namespace GeistClass
                 //Console.WriteLine(Network.OutputLayer[i].GetOutput(0) + "*(" + "1-" + Network.OutputLayer[i].GetOutput(0) + ")*" + "(" + classificationClass.GetTarget(DataSetList[index].ClassName)[i] + "-" + Network.OutputLayer[i].GetOutput(0)+")");
             }
             UpdateWeightHidden(outputError, index);
+
+            return outputError;
         }
 
         private void UpdateWeightHidden(float[] outputError, int index)

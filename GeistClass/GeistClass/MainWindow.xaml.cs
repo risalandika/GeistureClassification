@@ -33,6 +33,7 @@ namespace GeistClass
         private LeapEventListener listener;
         delegate void LeapEventDelegate(string EventName);
         Vector palmPositionOld = new Vector(0,0,0);
+        Chromosom fitChrom;
         List<Vector> vectorPosition = new List<Vector>();
         bool markStart=false;
         bool markEnd=false;
@@ -329,13 +330,31 @@ namespace GeistClass
             ListDataSet dsl = fr.ReadFile("DataSetBaru", cc);
             dsl.Normalized();
             
+
+
+            GeneticAlgorithm ga = new GeneticAlgorithm();
+            ga.Initialize(dsl, cc);
+            fitChrom = ga.Run();
+
+            for(int i = 0 ; i< dsl.Count; i++)
+            {
+                int popCount = 0;
+                for(int j=0; j< fitChrom.Length;j++)
+                {
+                    if (fitChrom[j] == 0)
+                    {
+                        dsl[i].RemoveBit(j - popCount);
+                        popCount++;
+                    }
+                }
+            }
+
             nn.InitialiseNetwork(dsl[0].AttributeCount, dsl[0].AttributeCount / 2, cc.TargetCount);
             nn.Seed = 0;
             nn.InitialiseWeight();
-            
             BackPropagation bp = new BackPropagation();
             bp.Initialise(nn, dsl, cc);
-            bp.Run();
+            bp.Run(1000);
         }
 
         private void Btn_GA_Click(object sender, RoutedEventArgs e)
@@ -343,6 +362,20 @@ namespace GeistClass
             FileReader fr = new FileReader();
             ListDataSet dsl = fr.ReadFile("DataTest", cc);
             dsl.Normalized();
+
+            for (int i = 0; i < dsl.Count; i++)
+            {
+                int popCount = 0;
+                for (int j = 0; j < fitChrom.Length; j++)
+                {
+                    if (fitChrom[j] == 0)
+                    {
+                        dsl[i].RemoveBit(j - popCount);
+                        popCount++;
+                    }
+                }
+            }
+
             FeedForward ff = new FeedForward();
             ff.Initialise(nn, dsl);
             ff.Run();

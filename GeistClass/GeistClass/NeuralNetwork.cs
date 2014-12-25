@@ -22,6 +22,26 @@ namespace GeistClass
         public List<Node> HiddenLayer { set; get; }
         public List<Node> OutputLayer { set; get; }
 
+        public NeuralNetwork()
+        {
+        }
+
+        public NeuralNetwork(NeuralNetwork newNN)
+        {
+            newNN.InitaliseInput();
+            InitialiseNetwork(newNN.InputLayer.Count, newNN.HiddenLayer.Count, newNN.OutputLayer.Count);
+            for (int i = 0; i < newNN.InputLayer.Count; i++)
+            {
+                InputLayer[i] = newNN.InputLayer[i];
+            }
+
+            for (int i = 0; i < newNN.HiddenLayer.Count; i++)
+            {
+                HiddenLayer[i] = newNN.HiddenLayer[i];
+            }
+
+        }
+
         public void InitialiseNetwork(int inputLayerCount, int hiddenLayerCount, int outputLayerCount)
         {
             InputLayer = new List<Node>();
