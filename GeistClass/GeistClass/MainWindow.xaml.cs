@@ -325,21 +325,19 @@ namespace GeistClass
 
         private void Btn_Read_Click(object sender, RoutedEventArgs e)
         {
-
+            
             FileReader fr = new FileReader();
             ListDataSet dsl = fr.ReadFile("DataSetBaru", cc);
             dsl.Normalized();
-            
-
 
             GeneticAlgorithm ga = new GeneticAlgorithm();
             ga.Initialize(dsl, cc);
             fitChrom = ga.Run();
 
-            for(int i = 0 ; i< dsl.Count; i++)
+            for (int i = 0; i < dsl.Count; i++)
             {
                 int popCount = 0;
-                for(int j=0; j< fitChrom.Length;j++)
+                for (int j = 0; j < fitChrom.Length; j++)
                 {
                     if (fitChrom[j] == 0)
                     {
@@ -348,18 +346,21 @@ namespace GeistClass
                     }
                 }
             }
-
+            Stopwatch sw = Stopwatch.StartNew();
             nn.InitialiseNetwork(dsl[0].AttributeCount, dsl[0].AttributeCount / 2, cc.TargetCount);
             nn.Seed = 0;
             nn.InitialiseWeight();
             BackPropagation bp = new BackPropagation();
             bp.Initialise(nn, dsl, cc);
-            bp.Run(1000);
+            bp.Run(500);
+            sw.Stop();
+            Console.WriteLine(sw.ElapsedMilliseconds/1000.0f);
         }
 
         private void Btn_GA_Click(object sender, RoutedEventArgs e)
         {
             FileReader fr = new FileReader();
+            
             ListDataSet dsl = fr.ReadFile("DataTest", cc);
             dsl.Normalized();
 
@@ -378,7 +379,27 @@ namespace GeistClass
 
             FeedForward ff = new FeedForward();
             ff.Initialise(nn, dsl);
-            ff.Run();
+            int jumlahBenar = 0;
+            for (int i = 0; i < dsl.Count; i++)
+            {
+                ff.Run(i);
+                bool cekData = true;
+                for(int j=0;j< cc.TargetCount; j++)
+                {
+                    //Console.Write(ff.GetActualClass()[j] + "--> " + cc.GetTarget(dsl[i].ClassName)[j]+" ");
+                    if (ff.GetActualClass()[j] != cc.GetTarget(dsl[i].ClassName)[j])
+                    {
+                        cekData = false;
+                        break;
+                    }
+                    
+                }
+                if (cekData)
+                    jumlahBenar++;
+                //Console.WriteLine(ce();kData);
+            }
+            Console.WriteLine("Dari total "+ dsl.Count +" datatest, yang benar adalah "+ jumlahBenar);
+
         }
     }
 }

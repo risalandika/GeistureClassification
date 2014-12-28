@@ -54,6 +54,8 @@ namespace GeistClass
         {
             neuralNetwork.InitaliseInput();
             DoInputLayer(index);
+
+            
         }
 
         private void DoInputLayer(int index)
